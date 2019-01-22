@@ -3,3 +3,6 @@ vgcore.*
 *.a
 *.gcno
 *.gcda
+*.so
+cmake-build-debug
+CMakeLists.txt
