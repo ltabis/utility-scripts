@@ -7,17 +7,32 @@ getRepoList()
 
     LIST=$(blih -u $USER@epitech.eu repository list | sort) #| tr '\n' ' '
     ARRAY=($LIST)
-    echo ${ARRAY[@]}
-    # getModuleAlias $ARRAY
+    if [ ${ARRAY[0]} = "Error" ]
+    then
+	echo "Error message : Bad token"
+	getRepoList USER
+    else
+	getModuleAlias $ARRAY
+    fi
 }
 
-# getModuleAlias()
-# {
-#     for it in ${ARRAY[@]}
-#     do
-	
-#     done
-# }
+getModuleAlias()
+{
+    ALIAS=()
+    
+    for IT in ${ARRAY[@]}
+    do
+	TMP=${IT%_*}
+	echo "TMP =" $TMP
+	# for NEW in ${ALIAS[@]}
+	# do
+	#     if [ "$NEW" = "$TMP" ]
+	#     then
+	#     fi
+	# done
+	# ALIAS+=()
+    done
+}
 
 cloneRepository()
 {
