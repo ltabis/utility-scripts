@@ -2,7 +2,6 @@
 
 doCommit()
 {
-    # git commit -m "\e[92m[\e[91m$TYPE\e[92m] \e[33m$TITL \e[39m: \e[34m$COMMIT\e[39m["
     git commit -m "[$TYPE] $TITLE : $COMMIT"
 }
 
