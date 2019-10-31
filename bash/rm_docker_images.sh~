@@ -1,5 +1,0 @@
-#!/bin/bash
-
-sudo docker stop $(sudo docker ps -lq)
-sudo docker rm $(sudo docker ps -lq)
-sudo docker rmi $(sudo docker images -qa)
