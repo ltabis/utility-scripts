@@ -29,6 +29,7 @@ description = input("description of the commit > ")
 tp = str(rEmoji.get(type))
 binding = str(rBindings.get(type))
 
+
 if tp != None:
     os.system("git commit -m \"{" + tp + " " + binding + "} " + title + " : " + description + "\"")
 else:
