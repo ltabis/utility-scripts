@@ -17,6 +17,7 @@ def display_help():
     print("   . test   ->  unit testing")
     print("   . merge  ->  merging branches")
     print("   . fact   ->  refactoring the code")
+    print("   . up     ->  general update of the code")
 
 rEmoji = ConfigReader("/etc/emoji.conf")
 rBindings = ConfigReader("/etc/bindings.conf")
