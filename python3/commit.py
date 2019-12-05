@@ -29,7 +29,7 @@ description = input("description of the commit > ")
 tp = str(rEmoji.get(type))
 binding = str(rBindings.get(type))
 
-if type != None:
+if tp != None:
     os.system("git commit -m \"{" + tp + " " + binding + "} " + title + " : " + description + "\"")
 else:
     print("Error: the type of your commit doesn't exist.", file=sys.stderr)
