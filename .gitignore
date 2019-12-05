@@ -6,3 +6,4 @@ vgcore.*
 *.so
 cmake-build-debug
 CMakeLists.txt
+__pycache__
