@@ -1,3 +1,3 @@
 # Utility-bash-scripts
 
-Some useful (or not) bash script file.
+Some useful (or not) script files.
