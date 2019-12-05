@@ -26,9 +26,8 @@ type = input("Type of the commit > ")
 title = input("title of the commit > ")
 description = input("description of the commit > ")
 
-tp = str(rEmoji.get(type))
-binding = str(rBindings.get(type))
-
+tp = rEmoji.get(type)
+binding = rBindings.get(type)
 
 if tp != None:
     os.system("git commit -m \"{" + tp + " " + binding + "} " + title + " : " + description + "\"")
