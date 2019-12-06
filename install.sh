@@ -1,9 +1,9 @@
 #!/bin/bash
 
-echo "o-----------------------------------------------------------o"
-echo "| Welcome to the utility bash scripts installation software |"
-echo "|                 Created by Tabis L.                       |"
-echo "o-----------------------------------------------------------o"
+echo "o------------------------------------------------------o"
+echo "| Welcome to the utility scripts installation software |"
+echo "|                Created by Tabis L.                   |"
+echo "o------------------------------------------------------o"
 echo
 echo "This bash file will install the following programs :"
 echo -e "> \e[32mclean\e[0m: Cleans temporary files."
