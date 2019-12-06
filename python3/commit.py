@@ -24,14 +24,13 @@ rBindings = ConfigReader("/etc/bindings.conf")
 
 display_help()
 type = input("Type of the commit > ")
-title = input("title of the commit > ")
 description = input("description of the commit > ")
 
 tp = rEmoji.get(type)
 binding = rBindings.get(type)
 
 if tp != None:
-    os.system("git commit -m \"{" + tp + " " + binding + "} " + title + " : " + description + "\"")
+    os.system("git commit -m \"[" + tp + " " + binding + "] " + description + "\"")
 else:
     print("Error: the type of your commit doesn't exist.", file=sys.stderr)
     display_help()
