@@ -22,11 +22,10 @@ chmod 755 bash/clean
 chmod 755 bash/clone_repo.sh
 chmod 755 bash/create_repo.sh
 chmod 755 bash/prepare_my_repo.sh
-chmod 755 bash/push_that.sh
 chmod 755 bash/rm_docker_images.sh
 
 chmod 755 python3/commit.py
 
 echo -e "Copying scripts into /bin ..."
-cp bash/clean bash/clone_repo.sh python3/commit.py python3/confReader.py bash/create_repo.sh bash/prepare_my_repo.sh bash/push_that.sh bash/rm_docker_images.sh /bin
+cp bash/clean bash/clone_repo.sh python3/commit.py python3/confReader.py bash/create_repo.sh bash/prepare_my_repo.sh bash/rm_docker_images.sh /usr/bin
 echo -e "\nall done!"
