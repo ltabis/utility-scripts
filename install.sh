@@ -13,6 +13,7 @@ echo -e "> \e[32mcreate_repo.sh\e[0m: Create a github repository."
 echo -e "> \e[32mprepare_my_repo.sh\e[0m: Create an Epitech repository."
 echo -e "> \e[32mpush_that.sh\e[0m: Push to a given branch."
 echo -e "> \e[32mrm_docker_images.sh\e[0m: delete all of your docker images."
+echo -e "> \e[32mupdate.sh\e[0m: Update the packages installed on your computer."
 
 echo -e "\nCopying config files into /etc ..."
 cp config/bindings.conf config/emoji.conf /etc
@@ -23,9 +24,10 @@ chmod 755 bash/clone_repo.sh
 chmod 755 bash/create_repo.sh
 chmod 755 bash/prepare_my_repo.sh
 chmod 755 bash/rm_docker_images.sh
+chmod 755 bash/update.sh
 
 chmod 755 python3/commit.py
 
-echo -e "Copying scripts into /bin ..."
-cp bash/clean bash/clone_repo.sh python3/commit.py python3/confReader.py bash/create_repo.sh bash/prepare_my_repo.sh bash/rm_docker_images.sh /usr/bin
+echo -e "Copying scripts into /usr/bin ..."
+cp bash/clean bash/clone_repo.sh python3/commit.py python3/confReader.py bash/create_repo.sh bash/prepare_my_repo.sh bash/rm_docker_images.sh bash/update.sh /usr/bin
 echo -e "\nall done!"
