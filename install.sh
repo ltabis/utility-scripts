@@ -16,6 +16,14 @@ echo -e "> \e[32mrm_docker_images.sh\e[0m: delete all of your docker images."
 echo -e "> \e[32mupdate.sh\e[0m: Update the packages installed on your computer."
 echo -e "> \e[32mtrash.py\e[0m: empty trash from the command line."
 
+read -ep "Do you want to install them all ? Yes, there isn't any options to choose wich to install ;) (Y//N) " IN
+
+
+if [ "$IN" != "Y" ] && [ "$IN" != "y" ]
+then
+    exit 0
+fi
+
 echo -e "\nCopying config files into /etc ..."
 cp config/bindings.conf config/emoji.conf /etc
 
