@@ -5,7 +5,7 @@ echo "| Welcome to the utility scripts installation software |"
 echo "|                Created by Tabis L.                   |"
 echo "o------------------------------------------------------o"
 echo
-echo "This bash file will install the following programs :"
+echo "This software will install the following programs :"
 echo -e "> \e[32mclean\e[0m: Cleans temporary files."
 echo -e "> \e[32mclone_repo.sh\e[0m: Clone an Epitech repository."
 echo -e "> \e[32mcommit.py\e[0m: Commit to a repository."
@@ -15,11 +15,10 @@ echo -e "> \e[32mpush_that.sh\e[0m: Push to a given branch."
 echo -e "> \e[32mrm_docker_images.sh\e[0m: delete all of your docker images."
 echo -e "> \e[32m(WIP) update.sh\e[0m: Update the packages installed on your computer -> only works for apt."
 echo -e "> \e[32mtrash.py\e[0m: empty trash from the command line."
-echo -e "> \e[32m(WIP) integration.py\e[0m: checks your unit tests."
+echo -e "> \e[32m(WIP) integration.py\e[0m: checks your unit tests and push them on a branch if they succeeded."
 
 echo -e "\n"
 read -ep "Do you want to install them all ? Yes, there isn't any options to choose wich to install ;) (Y//N) " IN
-
 
 if [ "$IN" != "Y" ] && [ "$IN" != "y" ]
 then
