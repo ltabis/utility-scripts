@@ -26,7 +26,7 @@ then
 fi
 
 echo -e "\nCopying config files into /etc ..."
-cp config/bindings.conf config/emoji.conf /etc
+cp config/bindings.conf config/emoji.conf config/pipeline.conf /etc
 
 echo -e "Creating executables ..."
 chmod 755 bash/clean
