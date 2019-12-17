@@ -56,3 +56,8 @@ class ConfigReader:
             for index, line in enumerate(file):
                 pass
             return index + 1
+
+    def get_all(self):
+        varList = []
+        [varList.append(item[1]) for item in self.dico.values()]
+        return varList
