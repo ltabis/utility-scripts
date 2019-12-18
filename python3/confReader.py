@@ -60,4 +60,5 @@ class ConfigReader:
     def get_all(self):
         varList = []
         [varList.append(item[1]) for item in self.dico.values()]
+        varList.reverse()
         return varList

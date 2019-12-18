@@ -36,6 +36,8 @@ def wait(process):
 
     # Wait for process to end
     while True:
+
+        # Get the code of the process
         return_code = process.poll()
         if return_code is not None:
             if return_code != 0:
