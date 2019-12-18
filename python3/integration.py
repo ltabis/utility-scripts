@@ -89,9 +89,51 @@ def commit_files():
                            universal_newlines=True)
     wait(process)
 
+
+# Display help / -h --help options
+def display_help():
+    print("\033[94musage: integration [-h | --help] [configuration path]\033[0m")
+    print("\nif there isn't any configuration file path specified, the program will search in the /etc/configpath.conf to get the default configuration file.")
+    print("\n\033[94mTo create a configuration file, use this syntax\033[0m:")
+    print("[step]:[command]")
+    print("[] are to be replaced by your configuration. for example, a file could contain:")
+    print("\nstep1:make re")
+    print("step2:./launch_my_program")
+    print("step3:make clean")
+    print("\n\033[94mIf all steps did worked, the program will ask for a commit message and the branch to push the modifications on.\033[0m")
+
+# Configure the path for integration
+def configuration():
+
+    conf = confReader.ConfigReader("/etc/configpath.conf")
+    if len(sys.argv) > 3:
+        print("Wrong set of arguments. Retry with > integration --help", file=sys.stderr)
+        exit(1)
+
+    # Check for --help / -h option
+    if len(sys.argv) == 2:
+        if sys.argv[1] == "-h" or sys.argv[1] == "--help":
+            display_help()
+            exit(0)
+        conf = confReader.ConfigReader(sys.argv[1])
+    else:
+        path = conf.get("path")
+        if path == None or path == "":
+            print("You didn't specify any default configuration file.")
+            while os.path.isfile(path) != True:
+                path = input("Change to another : ")
+            conf.set("path", path)
+            print("Path succesfuly saved, launching ...")
+            conf.write()
+        else:
+            print("getting default configuration from " + path + " ...")
+        conf = confReader.ConfigReader(path)
+
+    return conf
+
 # Main function
 def main():
-    conf = confReader.ConfigReader("/etc/pipeline.conf")
+    conf = configuration()
     steps = conf.get_all()
     stack = Stack()
 
