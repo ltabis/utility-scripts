@@ -92,8 +92,11 @@ def commit_files():
 
 # Display help / -h --help options
 def display_help():
-    print("\033[94musage: integration [-h | --help] [configuration path]\033[0m")
-    print("\nif there isn't any configuration file path specified, the program will search in the /etc/configpath.conf to get the default configuration file.")
+    print("\033[94musage: integration [-h | --help] [-c | --config] [configuration path]\033[0m")
+    print("\n\033[94m-h | --help\033[0m : Display this message")
+    print("\033[94m-c | --config\033[0m : Replace the default configuration path by a new (needs sudo)")
+    print("\033[94mconfiguration path\033[0m : To replace by a configuration file path that will replace the one by default")
+    print("\nif there isn't any configuration file path specified, the program will search in the /etc/configpath.conf to get the default configuration file. (needs sudo)")
     print("\n\033[94mTo create a configuration file, use this syntax\033[0m:")
     print("[step]:[command]")
     print("[] are to be replaced by your configuration. for example, a file could contain:")
@@ -101,6 +104,15 @@ def display_help():
     print("step2:./launch_my_program")
     print("step3:make clean")
     print("\n\033[94mIf all steps did worked, the program will ask for a commit message and the branch to push the modifications on.\033[0m")
+
+# Ask for the user a valid path to a configuration file
+def ask_for_path(conf, path):
+    while os.path.isfile(path) != True:
+        path = input("The path isn't valid, please select another : ")
+    conf.set("path", path)
+    print("New default path succesfuly saved, launching ...")
+    conf.write()
+    return conf
 
 # Configure the path for integration
 def configuration():
@@ -117,14 +129,12 @@ def configuration():
             exit(0)
         conf = confReader.ConfigReader(sys.argv[1])
     else:
+        if len(sys.argv) == 3 and (sys.argv[1] == "-c" or sys.argv[1] == "--config"):
+            conf = ask_for_path(conf, sys.argv[2])
         path = conf.get("path")
         if path == None or path == "":
             print("You didn't specify any default configuration file.")
-            while os.path.isfile(path) != True:
-                path = input("Change to another : ")
-            conf.set("path", path)
-            print("Path succesfuly saved, launching ...")
-            conf.write()
+            conf = ask_for_path(conf, path)
         else:
             print("getting default configuration from " + path + " ...")
         conf = confReader.ConfigReader(path)
