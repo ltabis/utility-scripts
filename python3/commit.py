@@ -20,17 +20,15 @@ def display_help():
     print("   . up     ->  general update of the code")
 
 rEmoji = ConfigReader("/etc/emoji.conf")
-rBindings = ConfigReader("/etc/bindings.conf")
 
 display_help()
 type = input("Type of the commit > ")
 description = input("description of the commit > ")
 
 tp = rEmoji.get(type)
-binding = rBindings.get(type)
 
 if tp != None:
-    os.system("git commit -m \"[" + tp + " " + binding + "] " + description + "\"")
+    os.system("git commit -m \"" + tp + " " + description + "\"")
 else:
     print("Error: the type of your commit doesn't exist.", file=sys.stderr)
     display_help()
