@@ -43,7 +43,7 @@ fi
 
 # Copying config files
 echo -e "\nCopying config files into /etc ...\n"
-cp config/bindings.conf config/emoji.conf config/configpath.conf /etc
+cp config/emoji.conf config/configpath.conf /etc
 
 # Copying python dependancies
 cp python3/confReader.py /usr/bin/
