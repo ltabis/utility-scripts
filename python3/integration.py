@@ -75,13 +75,32 @@ def commit_files():
     wait(process)
     print()
 
-    # Get commit message and branch
-    commit = input("Please specify your \033[94mcommit message\033[0m: ")
-    branch = input("Please specify the \033[94mbranch\033[0m: ")
-    process = subprocess.Popen(["git", "commit", "-m", commit],
-                           stdout=subprocess.PIPE,
-                           universal_newlines=True)
+    isscriptpresent = False
+
+    # Checking if commit.py is installed
+    try:
+        f = open("/usr/bin/commit.py")
+        isscriptpresent = True
+    except IOError:
+        isscriptpresent = False
+    finally:
+        f.close()
+
+    # Commit
+    process = 0
+    if isscriptpresent == True:
+        process = subprocess.Popen(["/usr/bin/commit.py"],
+                                   universal_newlines=True)
+    else:
+        # Get commit message
+        commit = input("Please specify your \033[94mcommit message\033[0m: ")
+        process = subprocess.Popen(["git", "commit", "-m", commit],
+                                   stdout=subprocess.PIPE,
+                                   universal_newlines=True)
     wait(process)
+
+    # Getting the branch
+    branch = input("Please specify the \033[94mbranch\033[0m: ")
 
     # Push modification    
     process = subprocess.Popen(["git", "push", "origin", branch],
