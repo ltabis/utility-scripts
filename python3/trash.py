@@ -15,7 +15,7 @@ res = input("There are/is " + str(len(files)) + " file(s) in the trash. Would yo
 if res == "Y" or res == "y":
     print("files deleted: ")
     [print("-> " + file) for file in files]
-    os.system("rm -f ~/.local/share/Trash/files/*")
+    os.system("rm -r ~/.local/share/Trash/files/*")
 else:
     print("current files are: ")
     [print("-> " + file) for file in files]
