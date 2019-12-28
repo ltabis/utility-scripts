@@ -81,10 +81,9 @@ def commit_files():
     try:
         f = open("/usr/bin/commit.py")
         isscriptpresent = True
+        f.close()
     except IOError:
         isscriptpresent = False
-    finally:
-        f.close()
 
     # Commit
     process = 0
