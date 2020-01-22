@@ -106,7 +106,7 @@ def changeDefault(key, value):
 
 def getConfig():
 
-    files = ConfigReader("/usr/bin/docgen.conf")
+    files = ConfigReader("/etc/docgen.conf")
 
     all_keywords = ConfigReader(files.get("keywords")).get_all()
 

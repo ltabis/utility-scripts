@@ -15,11 +15,12 @@ RESULTS=$(whiptail --title "Install Software" --checklist \
 "rm_docker_images" "Delete all of your docker images." OFF \
 "update" "(WIP) Update the packages installed on your computer -> only works for apt." OFF \
 "trash" "empty trash from the command line." OFF \
-"integration" "(WIP) checks your unit tests and push them on a branch if they succeeded." OFF 3>&1 1>&2 2>&3)
+"integration" "(WIP) checks your unit tests and push them on a branch if they succeeded." OFF \
+"doc_gen" "(WIP) generates doxygen documentation for your C++ headers." OFF 3>&1 1>&2 2>&3)
 
 # Scripts paths
-SCRIPTS=(bash/clean bash/clone_repo.sh python3/commit.py bash/create_repo.sh bash/prepare_my_repo.sh bash/rm_docker_images.sh bash/update.sh python3/trash.py python3/integration.py)
-NAMES=("clean" "clone_repo" "commit" "create_repo" "prepare_my_repo" "rm_docker_images" "update" "trash" "integration")
+SCRIPTS=(bash/clean bash/clone_repo.sh python3/commit.py bash/create_repo.sh bash/prepare_my_repo.sh bash/rm_docker_images.sh bash/update.sh python3/trash.py python3/integration.py python3/doc_gen.py)
+NAMES=("clean" "clone_repo" "commit" "create_repo" "prepare_my_repo" "rm_docker_images" "update" "trash" "integration", "doc_gen")
 TOINSTALL=()
 
 # Get the appropriate programs
@@ -52,6 +53,13 @@ cp python3/confReader.py /usr/bin/
 for PROGRAM in ${TOINSTALL[@]}
 do
     echo -e "Copying $PROGRAM into /usr/bin ..."
+
+    if [[ $PROGRAM  == "python3/doc_gen.py" ]]
+    then
+        echo -e "\ndoc_gen installed, copying config files into /etc ...\n"
+        cp config/docgen.conf config/header.conf config/keywords.conf /etc
+    fi
+
     chmod 755 $PROGRAM
     cp $PROGRAM /usr/bin
 done
