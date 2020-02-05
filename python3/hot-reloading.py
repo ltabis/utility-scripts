@@ -19,6 +19,7 @@ programname = ""
 ### Compiling ###
 #################
 
+# Compile the program with a special set of commands.
 def compile_program():
     
     objectfiles = get_files(objectdirectory, objecttype)

@@ -16,11 +16,12 @@ RESULTS=$(whiptail --title "Install Software" --checklist \
 "update" "(WIP) Update the packages installed on your computer -> only works for apt." OFF \
 "trash" "empty trash from the command line." OFF \
 "integration" "(WIP) checks your unit tests and push them on a branch if they succeeded." OFF \
-"doc_gen" "(WIP) generates doxygen documentation for your C++ headers." OFF 3>&1 1>&2 2>&3)
+"doc_gen" "(WIP) generates doxygen documentation for your C++ headers." OFF \
+"hot-reloading" "Checks wheter .o files needs to be recompiled." OFF 3>&1 1>&2 2>&3)
 
 # Scripts paths
-SCRIPTS=(bash/clean bash/clone_repo.sh python3/commit.py bash/create_repo.sh bash/prepare_my_repo.sh bash/rm_docker_images.sh bash/update.sh python3/trash.py python3/integration.py python3/doc_gen.py)
-NAMES=("clean" "clone_repo" "commit" "create_repo" "prepare_my_repo" "rm_docker_images" "update" "trash" "integration", "doc_gen")
+SCRIPTS=(bash/clean bash/clone_repo.sh python3/commit.py bash/create_repo.sh bash/prepare_my_repo.sh bash/rm_docker_images.sh bash/update.sh python3/trash.py python3/integration.py python3/doc_gen.py, python3/hot-reloading.py)
+NAMES=("clean" "clone_repo" "commit" "create_repo" "prepare_my_repo" "rm_docker_images" "update" "trash" "integration", "doc_gen", "hot-reloading")
 TOINSTALL=()
 
 # Get the appropriate programs
