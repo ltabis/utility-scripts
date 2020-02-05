@@ -11,7 +11,25 @@ configfilepath = ".config"
 
 sourcedirectory = ""
 objectdirectory = ""
-compilationcommand = ""
+ocompilationcommand = ""
+bcompilationcommand = ""
+programname = ""
+
+#################
+### Compiling ###
+#################
+
+def compile_program():
+    
+    objectfiles = get_files(objectdirectory, objecttype)
+
+    if len(objectfiles) == 0:
+        check_for_changes()
+        objectfiles = get_files(objectdirectory, objecttype)
+        print("Object files not found, generating them ...")
+
+    commandline = bcompilationcommand.split(" ") + [programname] + objectfiles
+    execute_command(commandline)
 
 ###################
 ### Object file ###
@@ -60,7 +78,7 @@ def check_for_changes():
     sourcefiles = get_files(sourcedirectory, sourcetype)
     objectfiles = get_files(objectdirectory, objecttype)
 
-    commandline = compilationcommand.split(" ") + sourcefiles
+    commandline = ocompilationcommand.split(" ") + sourcefiles
 
     if len(sourcefiles) != len(objectfiles):
         execute_command(commandline)
@@ -84,7 +102,7 @@ def check_for_changes():
 
     # source files needs to be recompiled.
     if len(compilelist):
-        commandline = compilationcommand.split(" ") + compilelist
+        commandline = ocompilationcommand.split(" ") + compilelist
         execute_command(commandline)
 
         # Moving object files.
@@ -112,11 +130,13 @@ def does_config_file_exists(func):
 # Create a config file where source and object files are stored.
 def create_config():
 
-    global sourcedirectory, objectdirectory, compilationcommand
+    global sourcedirectory, objectdirectory, ocompilationcommand, bcompilationcommand, programname
 
-    sourcedirectory    = input("Source directory: ")
-    objectdirectory    = input("Object directory: ")
-    compilationcommand = input("Compilation command: ")
+    programname         = input("Name of the program: ")
+    sourcedirectory     = input("Source directory: ")
+    objectdirectory     = input("Object directory: ")
+    ocompilationcommand = input("Object compilation command: ")
+    bcompilationcommand = input("Binary compilation command: ")
 
     check_dir(sourcedirectory)
     check_dir(objectdirectory)
@@ -124,44 +144,47 @@ def create_config():
     with open(configfilepath, "w+") as file:
         file.write(sourcedirectory + "\n")
         file.write(objectdirectory + "\n")
-        file.write(compilationcommand + "\n")
+        file.write(ocompilationcommand + "\n")
+        file.write(bcompilationcommand + "\n")
+        file.write(programname + "\n")
 
 # Reading config file.
 @does_config_file_exists
 def read_config():
 
-    global sourcedirectory, objectdirectory, compilationcommand
+    global sourcedirectory, objectdirectory, ocompilationcommand, bcompilationcommand, programname
 
     with open(configfilepath, "r") as file:
         sourcedirectory = file.readline().replace('\n', '')
         objectdirectory = file.readline().replace('\n', '')
-        compilationcommand = file.readline().replace('\n', '')
+        ocompilationcommand = file.readline().replace('\n', '')
+        bcompilationcommand = file.readline().replace('\n', '')
+        programname = file.readline().replace('\n', '')
 
 def display_help():
     print("usage: hot-reloading [-b | --build] [-h | --help]\n"\
           "\nRegenerates object files if source files has been changed.\n"\
-          "     -b | --build :  build a binary\n"\
-          "     -h | --help  :  display this help")
+          "     -b | --build    :  build a binary.\n"\
+          "     -h | --help     :  display this help."\
+          "     -d | --display  :  display data of object files. (Not implemented yet)")
 
 def main():
 
+    # Checking parameters
     if len(sys.argv) > 2:
         print("Invalid parameters.\n", file=sys.stderr)
         display_help()
         exit(1)
 
-    elif len(sys.argv) == 2 and (sys.argv[1] == "-h" or sys.argv[1] == "--help"):
-        display_help()
-        exit(0)
-
-    elif len(sys.argv) == 2 and (sys.argv[1] == "-b" or sys.argv[1] == "--build"):
-
-        ## To be implemented
-        display_help()
-        exit(0)
-
     read_config()
-    check_for_changes()
+
+    if len(sys.argv) == 2 and (sys.argv[1] == "-h" or sys.argv[1] == "--help"):
+        display_help()
+    elif len(sys.argv) == 2 and (sys.argv[1] == "-b" or sys.argv[1] == "--build"):
+        compile_program()
+        pass
+    else:
+        check_for_changes()
 
 if __name__ == "__main__":
     main()
