@@ -67,7 +67,7 @@ def update_all_repositories(path):
     repositories = [d for d in os.listdir(path) if os.path.isdir(os.path.join(path, d))]    
 
     for repo in repositories:
-        execute_command_and_get_output(["git", "pull", repo])
+        execute_command_and_get_output(["git", "pull", path + "/" + repo])
 
 # Download all repositories from blih.   
 def download_all_blih_repository():
@@ -89,7 +89,7 @@ def main():
     if len(sys.argv) == 2 and sys.argv[1] == "-h":
           display_usage()
           exit(0)
-    if len(sys.argv) != 3:
+    if len(sys.argv) != 3 and len(sys.argv) != 4:
           print("Error, there isn't a valid number of arguments.\n", file=sys.stderr)
           display_usage()
           exit(1)
