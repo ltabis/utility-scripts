@@ -45,7 +45,7 @@ type = input("\nType of the commit > ")
 tp = rEmoji.get(type)
 
 if tp != None:
-    os.system("git commit -m \"" + tp + " ")
+    os.system("git commit -m \"" + tp + " \"")
     os.system("git commit --amend")
 else:
     print("Error: the type of your commit doesn't exist.", file=sys.stderr)
