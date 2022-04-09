@@ -1,53 +1,50 @@
 #!/usr/bin/env python3
 
-from confReader import *
+import configparser
 import sys
 import os
 
-def display_help():
-    print("HOW TO USE:\n")
-    print("./commit.py type title description\n")
-    print("-- types [Keyword -> meaning]")
+help = """
+    HOW TO USE:\n
+    ./commit.py type title description\n
+    -- types [Keyword -> meaning]
+    \nCode:
+       . up     ->  general update of the code
+       . feat   ->  new feature
+       . fact   ->  refactoring the code
+       . perf   ->  performance improvement
+       . struct ->  structure of the code
+    \nFixes:
+       . fix    ->  quick fix of the code
+       . bug    ->  bug fix
+       . sec    ->  security fix
+       . lint   ->  removing linter warnings and errors
+    \nProject:
+       . ci     ->  Updating/Adding CI build system
+       . depa   ->  Adding a dependency.
+       . depd   ->  Removing a dependency.
+       . conf   ->  Changing configuration files.
+       . rm     ->  removing file(s) / code
+       . mv     ->  Moving or renaming files.
+    \nOther:
+       . doc    ->  documentation
+       . test   ->  unit testing
+       . merge  ->  merging branches
+       . wip    ->  work in progress
+       . new    ->  Experimenting new things
+"""
 
-    print("\nCode:")
-    print("   . up     ->  general update of the code")
-    print("   . feat   ->  new feature")
-    print("   . fact   ->  refactoring the code")
-    print("   . perf   ->  performance improvement")
-    print("   . struct ->  structure of the code")
-    
-    print("\nFixes:")
-    print("   . fix    ->  quick fix of the code")
-    print("   . bug    ->  bug fix")
-    print("   . sec    ->  security fix")
-    print("   . lint   ->  removing linter warnings and errors")
+config = configparser.ConfigParser("/etc/emojis.conf")
 
-    print("\nProject:")
-    print("   . ci     ->  Updating/Adding CI build system")
-    print("   . depa   ->  Adding a dependency.")
-    print("   . depd   ->  Removing a dependency.")
-    print("   . conf   ->  Changing configuration files.")
-    print("   . rm     ->  removing file(s) / code")
-    print("   . mv     ->  Moving or renaming files.")
+print(help)
 
-    print("\nOther:")
-    print("   . doc    ->  documentation")
-    print("   . test   ->  unit testing")
-    print("   . merge  ->  merging branches")
-    print("   . wip    ->  work in progress")
-    print("   . new    ->  Experimenting new things")
-
-rEmoji = ConfigReader("/etc/emoji.conf")
-
-display_help()
 type = input("\nType of the commit > ")
-
-tp = rEmoji.get(type)
+tp = config['emojis'].get(type)
 
 if tp != None:
     os.system("git commit -m \"" + tp + " \"")
     os.system("git commit --amend")
 else:
     print("Error: the type of your commit doesn't exist.", file=sys.stderr)
-    display_help()
+    print(help)
     exit(1)
