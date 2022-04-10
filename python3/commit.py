@@ -5,7 +5,7 @@ import sys
 import os
 
 help = """
-    HOW TO USE:\n
+HOW TO USE:\n
     ./commit.py type title description\n
     -- types [Keyword -> meaning]
     \nCode:
@@ -34,7 +34,8 @@ help = """
        . new    ->  Experimenting new things
 """
 
-config = configparser.ConfigParser("/etc/emojis.conf")
+config = configparser.ConfigParser()
+config.read_file(open("/etc/emojis.conf"))
 
 print(help)
 
@@ -42,7 +43,7 @@ type = input("\nType of the commit > ")
 tp = config['emojis'].get(type)
 
 if tp != None:
-    os.system("git commit -m \"" + tp + " \"")
+    os.system("git commit -m \":" + tp + ": \"")
     os.system("git commit --amend")
 else:
     print("Error: the type of your commit doesn't exist.", file=sys.stderr)
