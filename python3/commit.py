@@ -1,51 +1,83 @@
 #!/usr/bin/env python3
 
 import configparser
+from ntpath import join
 import sys
 import os
 
+# based on https://www.conventionalcommits.org/en/v1.0.0/
+
 help = """
-HOW TO USE:\n
-    ./commit.py type title description\n
-    -- types [Keyword -> meaning]
-    \nCode:
-       . up     ->  general update of the code
-       . feat   ->  new feature
-       . fact   ->  refactoring the code
-       . perf   ->  performance improvement
-       . struct ->  structure of the code
-    \nFixes:
-       . fix    ->  quick fix of the code
-       . bug    ->  bug fix
-       . sec    ->  security fix
-       . lint   ->  removing linter warnings and errors
-    \nProject:
-       . ci     ->  Updating/Adding CI build system
-       . depa   ->  Adding a dependency.
-       . depd   ->  Removing a dependency.
-       . conf   ->  Changing configuration files.
-       . rm     ->  removing file(s) / code
-       . mv     ->  Moving or renaming files.
-    \nOther:
-       . doc    ->  documentation
-       . test   ->  unit testing
-       . merge  ->  merging branches
-       . wip    ->  work in progress
-       . new    ->  Experimenting new things
+time to commit your stuff.
 """
 
-config = configparser.ConfigParser()
-config.read_file(open("/etc/emojis.conf"))
+types = ["fix", "feat", "BREAKING CHANGE", "build", "chore",
+         "ci", "docs", "style", "refactor", "perf", "test"]
 
-print(help)
+# Ask for a multiline message.
 
-type = input("\nType of the commit > ")
-tp = config['emojis'].get(type)
 
-if tp != None:
-    os.system("git commit -m \":" + tp + ": \"")
-    os.system("git commit --amend")
-else:
-    print("Error: the type of your commit doesn't exist.", file=sys.stderr)
+def multiline(section):
+    print(f"{section} (type your message, newline + '.' to stop)")
+    message = ""
+    while True:
+        part = input()
+        if part == ".":
+            return message
+        else:
+            message += f"{part}\n"
+
+# get parts of the commit message.
+
+
+def parts():
+    type = input(f"type ({types})\n> ")
+
+    if type not in types:
+        print(f"{type} is not a valid type ({types})")
+        exit(1)
+
+    scope = input("scope (optional)\n> ")
+    description = input("description\n> ")
+
+    breaking = multiline("breaking changes") if input(
+        "breaking change ? (y/n)\n> ") == "y" else None
+
+    context = multiline("additional context") if input(
+        "additional context ? (y/n)\n> ") == "y" else None
+
+    footers = dict()
+    while input("additional footer (y/n)\n> ") == "y":
+        title = input("title\n> ")
+        footers[title] = multiline("footer content")
+
+    return (type, scope, description, breaking, context, footers)
+
+# assemble the commit message.
+
+
+def assemble(parts):
+    (type, scope, description, breaking, context, footers) = parts
+
+    scope = f"({scope})" if scope else ""
+    breaking_mark = "!" if breaking is not None else ""
+    breaking = f"\n\nBREAKING CHANGES: {breaking}" if breaking is not None else ""
+    context = f"\n\n{context}" if context is not None else ""
+    footers = ''.join(
+        [f"\n{title}: {message}" for title, message in footers.items()])
+
+    return f"{type}{scope}{breaking_mark}: {description}{breaking}{context}{footers}"
+
+# use git to commit the message.
+
+
+def commit(message):
+    print(message)
+    os.system(repr(f'git commit -m "$(echo -e "{message}")"'))
+
+
+if __name__ == '__main__':
     print(help)
-    exit(1)
+    p = parts()
+    message = assemble(p)
+    commit(message)
