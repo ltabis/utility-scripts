@@ -1,9 +1,6 @@
 #!/usr/bin/env python3
 
-import configparser
-from ntpath import join
-import sys
-import os
+import subprocess
 
 # based on https://www.conventionalcommits.org/en/v1.0.0/
 
@@ -73,7 +70,7 @@ def assemble(parts):
 
 def commit(message):
     print(message)
-    os.system(repr(f'git commit -m "$(echo -e "{message}")"'))
+    subprocess.run(["git", "commit", "-m", message])
 
 
 if __name__ == '__main__':
