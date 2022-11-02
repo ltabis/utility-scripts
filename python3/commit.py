@@ -22,7 +22,7 @@ def parts():
         exit(1)
 
     scope = input("scope (optional)\n> ")
-    description = editor_input("# Write your commit description.")
+    description = editor_input()
 
     breaking = editor_input() if input(
         "breaking change ? (y/n)\n> ") == "y" else None
