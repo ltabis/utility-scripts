@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 
+import os
 import subprocess
+import tempfile
 
 # based on https://www.conventionalcommits.org/en/v1.0.0/
 
@@ -11,21 +13,6 @@ time to commit your stuff.
 types = ["fix", "feat", "BREAKING CHANGE", "build", "chore",
          "ci", "docs", "style", "refactor", "perf", "test"]
 
-# Ask for a multiline message.
-
-
-def multiline(section):
-    print(f"{section} (type your message, newline + '.' to stop)")
-    message = ""
-    while True:
-        part = input()
-        if part == ".":
-            return message
-        else:
-            message += f"{part}\n"
-
-# get parts of the commit message.
-
 
 def parts():
     type = input(f"type ({types})\n> ")
@@ -35,22 +22,20 @@ def parts():
         exit(1)
 
     scope = input("scope (optional)\n> ")
-    description = input("description\n> ")
+    description = editor_input("# Write your commit description.")
 
-    breaking = multiline("breaking changes") if input(
+    breaking = editor_input() if input(
         "breaking change ? (y/n)\n> ") == "y" else None
 
-    context = multiline("additional context") if input(
+    context = editor_input() if input(
         "additional context ? (y/n)\n> ") == "y" else None
 
     footers = dict()
     while input("additional footer (y/n)\n> ") == "y":
         title = input("title\n> ")
-        footers[title] = multiline("footer content")
+        footers[title] = editor_input()
 
     return (type, scope, description, breaking, context, footers)
-
-# assemble the commit message.
 
 
 def assemble(parts):
@@ -65,12 +50,26 @@ def assemble(parts):
 
     return f"{type}{scope}{breaking_mark}: {description}{breaking}{context}{footers}"
 
-# use git to commit the message.
-
 
 def commit(message):
     print(message)
     subprocess.run(["git", "commit", "-m", message])
+
+
+def editor_input(message=None):
+    EDITOR = os.environ.get('EDITOR', 'vi')
+
+    with tempfile.NamedTemporaryFile(suffix=".tmp") as tmp:
+        if message is not None:
+            tmp.write(str.encode(message))
+            tmp.flush()
+            tmp.seek(0)
+
+        subprocess.call([EDITOR, tmp.name])
+
+        return tmp.read().decode("utf-8")
+
+    return None
 
 
 if __name__ == '__main__':
