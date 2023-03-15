@@ -10,7 +10,7 @@ help = """
 time to commit your stuff.
 """
 
-types = ["fix", "feat", "BREAKING CHANGE", "build", "chore",
+types = ["fix", "feat", "build", "chore",
          "ci", "docs", "style", "refactor", "perf", "test"]
 
 def parts():
