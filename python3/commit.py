@@ -13,7 +13,6 @@ time to commit your stuff.
 types = ["fix", "feat", "BREAKING CHANGE", "build", "chore",
          "ci", "docs", "style", "refactor", "perf", "test"]
 
-
 def parts():
     type = input(f"type ({types})\n> ")
 
@@ -57,7 +56,7 @@ def commit(message):
 
 
 def editor_input(message=None):
-    EDITOR = os.environ.get('EDITOR', 'vi')
+    EDITOR = os.environ.get('EDITOR', 'nano')
 
     with tempfile.NamedTemporaryFile(suffix=".tmp") as tmp:
         if message is not None:
